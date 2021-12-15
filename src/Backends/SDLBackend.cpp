@@ -20,6 +20,7 @@
 #include "steamcompmgr.hpp"
 #include "Utils/Defer.h"
 #include "refresh_rate.h"
+#include "acmap.hpp"
 
 #include "sdlscancodetable.hpp"
 
@@ -690,9 +691,9 @@ namespace gamescope
 				case SDL_MOUSEBUTTONUP:
 				{
 					wlserver_lock();
-					wlserver_mousebutton( SDLButtonToLinuxButton( event.button.button ),
-										event.button.state == SDL_PRESSED,
-										fake_timestamp );
+					actionmap_performbutton( SDLButtonToLinuxButton( event.button.button ),
+											 event.button.state == SDL_PRESSED,
+											 fake_timestamp );
 					wlserver_unlock();
 				}
 				break;
@@ -803,7 +804,7 @@ namespace gamescope
 						break;
 
 					wlserver_lock();
-					wlserver_key( key, event.type == SDL_KEYDOWN, fake_timestamp );
+					actionmap_performkey( key, event.type == SDL_KEYDOWN, fake_timestamp );
 					wlserver_unlock();
 				}
 				break;

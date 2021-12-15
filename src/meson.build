@@ -120,6 +120,7 @@ src = [
   'x11cursor.cpp',
   'InputEmulation.cpp',
   'LibInputHandler.cpp',
+  'acmap.cpp',
 ]
 
 luajit_dep = dependency( 'luajit' )
