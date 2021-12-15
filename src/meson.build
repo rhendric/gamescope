@@ -110,6 +110,7 @@ src = [
   'backend.cpp',
   'wayland_backend.cpp',
   'InputEmulation.cpp',
+  'acmap.cpp',
 ]
 
 gamescope_cpp_args = []

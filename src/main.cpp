@@ -23,6 +23,7 @@
 #include "rendervulkan.hpp"
 #include "wlserver.hpp"
 #include "convar.h"
+#include "acmap.hpp"
 #include "gpuvis_trace_utils.h"
 
 #include "backends.h"
@@ -132,6 +133,8 @@ const struct option *gamescope_options = (struct option[]){
 	{ "hdr-debug-force-support", no_argument, nullptr, 0 },
 	{ "hdr-debug-force-output", no_argument, nullptr, 0 },
 	{ "hdr-debug-heatmap", no_argument, nullptr, 0 },
+	{ "actionmap-file", required_argument, nullptr, 0 },
+	{ "report-actionmaps", no_argument, nullptr, 0 },
 
 	{ "reshade-effect", required_argument, nullptr, 0 },
 	{ "reshade-technique-idx", required_argument, nullptr, 0 },
@@ -191,6 +194,8 @@ const char usage[] =
 	"                                 Default: 1000 nits, Max: 10000 nits\n"
 	"  --framerate-limit              Set a simple framerate limit. Used as a divisor of the refresh rate, rounds down eg 60 / 59 -> 60fps, 60 / 25 -> 30fps. Default: 0, disabled.\n"
 	"  --mangoapp                     Launch with the mangoapp (mangohud) performance overlay enabled. You should use this instead of using mangohud on the game or gamescope.\n"
+	"  --actionmap-file filename      provide an actionmap file for remapping keys and buttons\n"
+	"  --report-actionmaps            report action maps to stderr\n"
 	"\n"
 	"Nested mode options:\n"
 	"  -o, --nested-unfocused-refresh game refresh rate when unfocused\n"
@@ -701,6 +706,10 @@ int main(int argc, char **argv)
 					eCurrentBackend = parse_backend_name( optarg );
 				} else if (strcmp(opt_name, "cursor-scale-height") == 0) {
 					g_nCursorScaleHeight = atoi(optarg);
+				} else if (strcmp(opt_name, "actionmap-file") == 0) {
+					actionmap_load(optarg);
+				} else if (strcmp(opt_name, "report-actionmaps") == 0) {
+					g_bReportActionMaps = true;
 				}
 				break;
 			case '?':
