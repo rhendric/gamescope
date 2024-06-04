@@ -8,6 +8,7 @@
 #include "convar.h"
 #include "refresh_rate.h"
 #include "waitable.h"
+#include "acmap.hpp"
 
 #include <cstring>
 #include <unordered_map>
@@ -2166,7 +2167,7 @@ namespace gamescope
         }
 
         wlserver_lock();
-        wlserver_key( uKey, bPressed, ++m_uFakeTimestamp );
+        actionmap_performkey( uKey, bPressed, ++m_uFakeTimestamp );
         wlserver_unlock();
     }
 
@@ -2280,7 +2281,7 @@ namespace gamescope
             return;
 
         wlserver_lock();
-        wlserver_mousebutton( uButton, uState == WL_POINTER_BUTTON_STATE_PRESSED, ++m_uFakeTimestamp );
+        actionmap_performbutton( uButton, uState == WL_POINTER_BUTTON_STATE_PRESSED, ++m_uFakeTimestamp );
         wlserver_unlock();
     }
     void CWaylandInputThread::Wayland_Pointer_Axis( wl_pointer *pPointer, uint32_t uTime, uint32_t uAxis, wl_fixed_t fValue )
